@@ -45,8 +45,11 @@ key_info=(
 
 # Bind the keys
 
-for key (${(s: :)key_info[ControlLeft]}) bindkey ${key} backward-word
-for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
+function() {
+  local key
+  for key (${(s: :)key_info[ControlLeft]}) bindkey ${key} backward-word
+  for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
+}
 
 [[ -n ${key_info[Home]} ]] && bindkey ${key_info[Home]} beginning-of-line
 [[ -n ${key_info[End]} ]] && bindkey ${key_info[End]} end-of-line
