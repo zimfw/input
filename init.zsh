@@ -45,7 +45,6 @@ key_info=(
 
 # Bind the keys
 
-local key
 for key (${(s: :)key_info[ControlLeft]}) bindkey ${key} backward-word
 for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
 
