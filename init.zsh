@@ -57,9 +57,7 @@ for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
 
 [[ -n ${key_info[Insert]} ]] && bindkey ${key_info[Insert]} overwrite-mode
 
-local zdouble_dot_expand
-zstyle -b ':zim:input' double-dot-expand 'zdouble_dot_expand'
-if [[ ${zdouble_dot_expand} == 'yes' ]]; then
+if zstyle -t ':zim:input' double-dot-expand; then
   double-dot-expand() {
     if [[ ${LBUFFER} == *.. ]]; then
       LBUFFER+='/..'
