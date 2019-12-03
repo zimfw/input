@@ -68,6 +68,10 @@
   # Bind <Shift-Tab> to go to the previous menu item.
   [[ -n ${key_info[BackTab]} ]] && bindkey ${key_info[BackTab]} reverse-menu-complete
 
+  # Use smart URL pasting and escaping.
+  autoload -Uz bracketed-paste-url-magic && zle -N bracketed-paste bracketed-paste-url-magic
+  autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+
   if zstyle -t ':zim:input' double-dot-expand; then
     double-dot-expand() {
       if [[ ${LBUFFER} == *.. ]]; then
