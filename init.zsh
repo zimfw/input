@@ -82,6 +82,7 @@
     }
     zle -N double-dot-expand
     bindkey '.' double-dot-expand
+    bindkey -M isearch '.' self-insert
   fi
 
   autoload -Uz is-at-least && if ! is-at-least 5.3; then
