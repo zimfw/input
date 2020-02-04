@@ -45,19 +45,19 @@
   for key (${(s: :)key_info[ControlLeft]}) bindkey ${key} backward-word
   for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
 
-  [[ -n ${key_info[Home]} ]] && bindkey ${key_info[Home]} beginning-of-line
-  [[ -n ${key_info[End]} ]] && bindkey ${key_info[End]} end-of-line
+  if [[ -n ${key_info[Home]} ]] bindkey ${key_info[Home]} beginning-of-line
+  if [[ -n ${key_info[End]} ]] bindkey ${key_info[End]} end-of-line
 
-  [[ -n ${key_info[PageUp]} ]] && bindkey ${key_info[PageUp]} up-line-or-history
-  [[ -n ${key_info[PageDown]} ]] && bindkey ${key_info[PageDown]} down-line-or-history
+  if [[ -n ${key_info[PageUp]} ]] bindkey ${key_info[PageUp]} up-line-or-history
+  if [[ -n ${key_info[PageDown]} ]] bindkey ${key_info[PageDown]} down-line-or-history
 
-  [[ -n ${key_info[Insert]} ]] && bindkey ${key_info[Insert]} overwrite-mode
+  if [[ -n ${key_info[Insert]} ]] bindkey ${key_info[Insert]} overwrite-mode
 
-  [[ -n ${key_info[Backspace]} ]] && bindkey ${key_info[Backspace]} backward-delete-char
-  [[ -n ${key_info[Delete]} ]] && bindkey ${key_info[Delete]} delete-char
+  if [[ -n ${key_info[Backspace]} ]] bindkey ${key_info[Backspace]} backward-delete-char
+  if [[ -n ${key_info[Delete]} ]] bindkey ${key_info[Delete]} delete-char
 
-  [[ -n ${key_info[Left]} ]] && bindkey ${key_info[Left]} backward-char
-  [[ -n ${key_info[Right]} ]] && bindkey ${key_info[Right]} forward-char
+  if [[ -n ${key_info[Left]} ]] bindkey ${key_info[Left]} backward-char
+  if [[ -n ${key_info[Right]} ]] bindkey ${key_info[Right]} forward-char
 
   # Expandpace.
   bindkey ' ' magic-space
@@ -66,7 +66,7 @@
   bindkey "${key_info[Control]}L" clear-screen
 
   # Bind <Shift-Tab> to go to the previous menu item.
-  [[ -n ${key_info[BackTab]} ]] && bindkey ${key_info[BackTab]} reverse-menu-complete
+  if [[ -n ${key_info[BackTab]} ]] bindkey ${key_info[BackTab]} reverse-menu-complete
 
   # Use smart URL pasting and escaping.
   autoload -Uz bracketed-paste-url-magic && zle -N bracketed-paste bracketed-paste-url-magic
@@ -98,10 +98,10 @@
 
   # Put into application mode and validate ${terminfo}
   zle-line-init() {
-    (( ${+terminfo[smkx]} )) && echoti smkx
+    if (( ${+terminfo[smkx]} )) echoti smkx
   }
   zle-line-finish() {
-    (( ${+terminfo[rmkx]} )) && echoti rmkx
+    if (( ${+terminfo[rmkx]} )) echoti rmkx
   }
   zle -N zle-line-init
   zle -N zle-line-finish
