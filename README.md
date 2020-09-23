@@ -7,7 +7,7 @@ Without this module, you may experience oddities in how Zsh interprets input.
 For example, pressing LEFT and then the DELETE key may capitalize characters
 rather than delete them.
 
-Also enables smart URL-pasting. This prevents the user from having to manually
+Also enables smart URL-pasting, which prevents the user from having to manually
 escape URLs.
 
 Settings

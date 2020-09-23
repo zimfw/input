@@ -65,6 +65,10 @@
   # Clear
   bindkey "${key_info[Control]}L" clear-screen
 
+  # <Ctrl-x><Ctrl-e> to edit command-line in EDITOR
+  autoload -Uz edit-command-line && zle -N edit-command-line && \
+      bindkey "${key_info[Control]}x${key_info[Control]}e" edit-command-line
+
   # Bind <Shift-Tab> to go to the previous menu item.
   if [[ -n ${key_info[BackTab]} ]] bindkey ${key_info[BackTab]} reverse-menu-complete
 
@@ -96,13 +100,15 @@
     bindkey "${key_info[Control]}I" expand-or-complete-with-redisplay
   fi
 
-  # Put into application mode and validate ${terminfo}
-  zle-line-init() {
-    if (( ${+terminfo[smkx]} )) echoti smkx
-  }
-  zle-line-finish() {
-    if (( ${+terminfo[rmkx]} )) echoti rmkx
-  }
-  zle -N zle-line-init
-  zle -N zle-line-finish
+  # Put into application mode
+  if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+    zle-line-init() {
+      echoti smkx
+    }
+    zle-line-finish() {
+      echoti rmkx
+    }
+    zle -N zle-line-init
+    zle -N zle-line-finish
+  fi
 }
