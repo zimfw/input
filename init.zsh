@@ -13,13 +13,13 @@
     'ControlRight' '\e[1;5C \e[5C \e\e[C \eOc \eOC'
     'Escape'       '\e'
     'Meta'         '\M-'
-    'Backspace'    "${terminfo[kbs]}"
+    'Backspace'    '^?'
+    'Delete'       '^[[3~'
     'BackTab'      "${terminfo[kcbt]}"
     'Left'         "${terminfo[kcub1]}"
     'Down'         "${terminfo[kcud1]}"
     'Right'        "${terminfo[kcuf1]}"
     'Up'           "${terminfo[kcuu1]}"
-    'Delete'       "${terminfo[kdch1]}"
     'End'          "${terminfo[kend]}"
     'F1'           "${terminfo[kf1]}"
     'F2'           "${terminfo[kf2]}"
@@ -45,6 +45,9 @@
   for key (${(s: :)key_info[ControlLeft]}) bindkey ${key} backward-word
   for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
 
+  bindkey ${key_info[Backspace]} backward-delete-char
+  bindkey ${key_info[Delete]} delete-char
+
   if [[ -n ${key_info[Home]} ]] bindkey ${key_info[Home]} beginning-of-line
   if [[ -n ${key_info[End]} ]] bindkey ${key_info[End]} end-of-line
 
@@ -52,9 +55,6 @@
   if [[ -n ${key_info[PageDown]} ]] bindkey ${key_info[PageDown]} down-line-or-history
 
   if [[ -n ${key_info[Insert]} ]] bindkey ${key_info[Insert]} overwrite-mode
-
-  if [[ -n ${key_info[Backspace]} ]] bindkey ${key_info[Backspace]} backward-delete-char
-  if [[ -n ${key_info[Delete]} ]] bindkey ${key_info[Delete]} delete-char
 
   if [[ -n ${key_info[Left]} ]] bindkey ${key_info[Left]} backward-char
   if [[ -n ${key_info[Right]} ]] bindkey ${key_info[Right]} forward-char
