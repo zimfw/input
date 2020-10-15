@@ -78,7 +78,8 @@
 
   if zstyle -t ':zim:input' double-dot-expand; then
     double-dot-expand() {
-      if [[ ${LBUFFER} == *.. ]]; then
+      # Expand .. at the beginning, after space, or after any of ! & / ; < > |
+      if [[ ${LBUFFER} == (|*[[:space:]!\&/\;\<\>|]).. ]]; then
         LBUFFER+='/..'
       else
         LBUFFER+='.'
