@@ -87,7 +87,8 @@
     bindkey -M isearch '.' self-insert
   fi
 
-  autoload -Uz is-at-least && if ! is-at-least 5.3; then
+  autoload -Uz is-at-least
+  if ! is-at-least 5.3; then
     # Redisplay after completing, and avoid blank prompt after <Tab><Tab><Ctrl-C>
     expand-or-complete-with-redisplay() {
       print -Pn '...'
@@ -98,15 +99,22 @@
     bindkey "${key_info[Control]}I" expand-or-complete-with-redisplay
   fi
 
-  # Put into application mode
   if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
-    zle-line-init() {
+    # Enable application mode when zle is active
+    start-application-mode() {
       echoti smkx
     }
-    zle-line-finish() {
+    stop-application-mode() {
       echoti rmkx
     }
-    zle -N zle-line-init
-    zle -N zle-line-finish
+
+    if is-at-least 5.3; then
+      autoload -Uz add-zle-hook-widget && \
+          add-zle-hook-widget -Uz line-init start-application-mode && \
+          add-zle-hook-widget -Uz line-finish stop-application-mode
+    else
+      zle -N zle-line-init start-application-mode
+      zle -N zle-line-finish stop-application-mode
+    fi
   fi
 }
