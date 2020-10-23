@@ -62,9 +62,6 @@
   # Expandpace.
   bindkey ' ' magic-space
 
-  # Clear
-  bindkey "${key_info[Control]}L" clear-screen
-
   # <Ctrl-x><Ctrl-e> to edit command-line in EDITOR
   autoload -Uz edit-command-line && zle -N edit-command-line && \
       bindkey "${key_info[Control]}x${key_info[Control]}e" edit-command-line
