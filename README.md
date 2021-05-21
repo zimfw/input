@@ -38,3 +38,5 @@ This module also provides double-dot parent directory expansion. It can be
 enabled with:
 
     zstyle ':zim:input' double-dot-expand yes
+
+in your `~/.zshrc` before where the module is initialized.
