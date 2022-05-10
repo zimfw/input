@@ -2,41 +2,41 @@
 # Editor and input char assignment
 #
 
-[[ ${TERM} != 'dumb' ]] && () {
+[[ ${TERM} != dumb ]] && () {
 
   # Use human-friendly identifiers.
   zmodload -F zsh/terminfo +b:echoti +p:terminfo
   typeset -gA key_info
   key_info=(
-    'Control'      '\C-'
-    'ControlLeft'  '\e[1;5D \e[5D \e\e[D \eOd \eOD'
-    'ControlRight' '\e[1;5C \e[5C \e\e[C \eOc \eOC'
-    'Escape'       '\e'
-    'Meta'         '\M-'
-    'Backspace'    '^?'
-    'Delete'       '^[[3~'
-    'BackTab'      "${terminfo[kcbt]}"
-    'Left'         "${terminfo[kcub1]}"
-    'Down'         "${terminfo[kcud1]}"
-    'Right'        "${terminfo[kcuf1]}"
-    'Up'           "${terminfo[kcuu1]}"
-    'End'          "${terminfo[kend]}"
-    'F1'           "${terminfo[kf1]}"
-    'F2'           "${terminfo[kf2]}"
-    'F3'           "${terminfo[kf3]}"
-    'F4'           "${terminfo[kf4]}"
-    'F5'           "${terminfo[kf5]}"
-    'F6'           "${terminfo[kf6]}"
-    'F7'           "${terminfo[kf7]}"
-    'F8'           "${terminfo[kf8]}"
-    'F9'           "${terminfo[kf9]}"
-    'F10'          "${terminfo[kf10]}"
-    'F11'          "${terminfo[kf11]}"
-    'F12'          "${terminfo[kf12]}"
-    'Home'         "${terminfo[khome]}"
-    'Insert'       "${terminfo[kich1]}"
-    'PageDown'     "${terminfo[knp]}"
-    'PageUp'       "${terminfo[kpp]}"
+    Control      '\C-'
+    ControlLeft  '\e[1;5D \e[5D \e\e[D \eOd \eOD'
+    ControlRight '\e[1;5C \e[5C \e\e[C \eOc \eOC'
+    Escape       '\e'
+    Meta         '\M-'
+    Backspace    '^?'
+    Delete       '^[[3~'
+    BackTab      "${terminfo[kcbt]}"
+    Left         "${terminfo[kcub1]}"
+    Down         "${terminfo[kcud1]}"
+    Right        "${terminfo[kcuf1]}"
+    Up           "${terminfo[kcuu1]}"
+    End          "${terminfo[kend]}"
+    F1           "${terminfo[kf1]}"
+    F2           "${terminfo[kf2]}"
+    F3           "${terminfo[kf3]}"
+    F4           "${terminfo[kf4]}"
+    F5           "${terminfo[kf5]}"
+    F6           "${terminfo[kf6]}"
+    F7           "${terminfo[kf7]}"
+    F8           "${terminfo[kf8]}"
+    F9           "${terminfo[kf9]}"
+    F10          "${terminfo[kf10]}"
+    F11          "${terminfo[kf11]}"
+    F12          "${terminfo[kf12]}"
+    Home         "${terminfo[khome]}"
+    Insert       "${terminfo[kich1]}"
+    PageDown     "${terminfo[knp]}"
+    PageUp       "${terminfo[kpp]}"
   )
 
   # Bind the keys
@@ -62,6 +62,10 @@
   # Expandpace.
   bindkey ' ' magic-space
 
+  # Bind insert-last-word even in viins mode
+  bindkey "${key_info[Escape]}." insert-last-word
+  bindkey "${key_info[Escape]}_" insert-last-word
+
   # <Ctrl-x><Ctrl-e> to edit command-line in EDITOR
   autoload -Uz edit-command-line && zle -N edit-command-line && \
       bindkey "${key_info[Control]}x${key_info[Control]}e" edit-command-line
@@ -77,21 +81,21 @@
     double-dot-expand() {
       # Expand .. at the beginning, after space, or after any of ! " & ' / ; < > |
       if [[ ${LBUFFER} == (|*[[:space:]!\"\&\'/\;\<\>|]).. ]]; then
-        LBUFFER+='/..'
+        LBUFFER+=/..
       else
-        LBUFFER+='.'
+        LBUFFER+=.
       fi
     }
     zle -N double-dot-expand
-    bindkey '.' double-dot-expand
-    bindkey -M isearch '.' self-insert
+    bindkey . double-dot-expand
+    bindkey -M isearch . self-insert
   fi
 
   autoload -Uz is-at-least
   if ! is-at-least 5.3; then
     # Redisplay after completing, and avoid blank prompt after <Tab><Tab><Ctrl-C>
     expand-or-complete-with-redisplay() {
-      print -Pn '...'
+      print -Pn ...
       zle expand-or-complete
       zle redisplay
     }
