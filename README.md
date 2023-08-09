@@ -34,8 +34,10 @@ The following key bindings are set in the main keymap:
 Settings
 --------
 
-This module also provides double-dot parent directory expansion. It can be
-enabled with:
+This module also provides 'double-dot parent directory expansion'. The behavior
+of this expantion is to turn `...` into `../..` and so on (`....` into `../../..`) , so the user desn't need to type too many `/..` (disabled by default).
+
+It can be enabled by adding:
 
     zstyle ':zim:input' double-dot-expand yes
 
