@@ -35,7 +35,7 @@ Settings
 --------
 
 This module also provides 'double-dot parent directory expansion'. The behavior
-of this expantion is to turn every `.` typed after `..` into `/..`. E.g. `....` into `../../..` , so the user desn't need to type too many `/..` (disable by default).
+of this expantion is to turn every `.` typed after `..` into `/..` (E.g. `....` into `../../..`) , so the user desn't need to type too many `/..` (disable by default).
 
 It can be enabled by adding:
 
