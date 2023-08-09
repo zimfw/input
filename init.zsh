@@ -77,9 +77,10 @@
   autoload -Uz bracketed-paste-url-magic && zle -N bracketed-paste bracketed-paste-url-magic
   autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 
+  # Expand every . typed after .. into /.. (e.g. ... turns into ../..)
   if zstyle -t ':zim:input' double-dot-expand; then
     double-dot-expand() {
-      # Expand .. at the beginning, after space, or after any of ! " & ' / ; < > |
+      # Expand . if .. at the beginning, after space, or after any of ! " & ' / ; < > |
       if [[ ${LBUFFER} == (|*[[:space:]!\"\&\'/\;\<\>|]).. ]]; then
         LBUFFER+=/..
       else
