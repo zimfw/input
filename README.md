@@ -14,6 +14,8 @@ The following key bindings are set in the main keymap:
 
   * BACKSPACE erases the character under the cursor.
   * DELETE erases the character behind the cursor.
+  * CTRL-BACKSPACE erases the word under the cursor.
+  * CTRL-DELETE erases the word behind the cursor.
   * INSERT toggles between overwrite and insert mode.
   * HOME moves to the beginning of the current line or, if already there, of the
     previous line.
