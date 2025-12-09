@@ -45,7 +45,6 @@
   for key (${(s: :)key_info[ControlLeft]}) bindkey ${key} backward-word
   for key (${(s: :)key_info[ControlRight]}) bindkey ${key} forward-word
 
-  bindkey ${key_info[Backspace]} backward-delete-char
   bindkey ${key_info[Delete]} delete-char
 
   if [[ -n ${key_info[Home]} ]] bindkey ${key_info[Home]} beginning-of-line
@@ -80,7 +79,7 @@
   if zstyle -t ':zim:input' double-dot-expand; then
     double-dot-expand() {
       # Expand .. at the beginning, after space, or after any of ! " & ' / ; < > |
-      if [[ ${LBUFFER} == (|*[[:space:]!\"\&\'/\;\<\>|]).. ]]; then
+      if [[ ${LBUFFER} == (|*[[:space:]!\"\&\'/\;\<\>|]).. && -z ${RBUFFER} ]]; then
         LBUFFER+=/..
       else
         LBUFFER+=.
@@ -89,12 +88,22 @@
     zle -N double-dot-expand
     bindkey . double-dot-expand
     bindkey -M isearch . self-insert
+
+    double-dot-contract() {
+      if [[ ${LBUFFER} == *../.. && -z ${RBUFFER} ]] LBUFFER=${LBUFFER::-2}
+      zle backward-delete-char
+    }
+    zle -N double-dot-contract
+    bindkey ${key_info[Backspace]} double-dot-contract
+    bindkey -M isearch ${key_info[Backspace]} backward-delete-char
+  else
+    bindkey ${key_info[Backspace]} backward-delete-char
   fi
 
   autoload -Uz is-at-least && if ! is-at-least 5.3; then
     # Redisplay after completing, and avoid blank prompt after <Tab><Tab><Ctrl-C>
     expand-or-complete-with-redisplay() {
-      print -Pn ...
+      print -n ...
       zle expand-or-complete
       zle redisplay
     }
