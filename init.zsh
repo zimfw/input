@@ -111,19 +111,16 @@
     bindkey "${key_info[Control]}I" expand-or-complete-with-redisplay
   fi
 
-  if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+  if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} && \
+      ! ${+functions[_start_application_mode]} && ! ${+functions[_stop_application_mode]} )); then
     # Enable application mode when zle is active
-    zle-line-init() {
-      echoti smkx
-    }
-    zle-line-finish() {
-      echoti rmkx
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
+    functions[_start_application_mode]=${widgets[zle-line-init]#user:}'
+echoti smkx'
+    functions[_stop_application_mode]=${widgets[zle-line-finish]#user:}'
+echoti rmkx'
+    zle -N zle-line-init _start_application_mode
+    zle -N zle-line-finish _stop_application_mode
   fi
-
-  autoload -Uz add-zsh-hook
 
   _input_deferred_init_precmd() {
     if (( ${+functions[history-substring-search-up]} && ${+functions[history-substring-search-down]} )); then
@@ -134,5 +131,5 @@
     precmd_functions=(${precmd_functions:#_input_deferred_init_precmd})
     unfunction _input_deferred_init_precmd
   }
-  add-zsh-hook precmd _input_deferred_init_precmd
+  autoload -Uz add-zsh-hook && add-zsh-hook precmd _input_deferred_init_precmd
 }
