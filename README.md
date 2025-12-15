@@ -31,6 +31,13 @@ The following key bindings are set in the main keymap:
     than the next.
   * CTRL-X CTRL-E edits the command line with an external editor.
 
+If the `zsh-users/zsh-history-substring-search` module is defined, which should be
+done at the bottom of your `~/.zimrc`, after the `zsh-users/zsh-syntax-highlighting`
+module, then this module will do a deferred binding of the following keys:
+
+  * UP or CTRL-P selects the previous command that contains what was typed.
+  * DOWN or CTRL-N selects the next command that contains what was typed.
+
 Settings
 --------
 
