@@ -95,9 +95,11 @@
     }
     zle -N double-dot-contract
     bindkey ${key_info[Backspace]} double-dot-contract
+    bindkey -M viins ${key_info[Backspace]} double-dot-contract
     bindkey -M isearch ${key_info[Backspace]} backward-delete-char
   else
     bindkey ${key_info[Backspace]} backward-delete-char
+    bindkey -M viins ${key_info[Backspace]} backward-delete-char
   fi
 
   autoload -Uz is-at-least && if ! is-at-least 5.3; then
