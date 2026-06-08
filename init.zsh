@@ -90,7 +90,7 @@
     bindkey -M isearch . self-insert
 
     double-dot-contract() {
-      if [[ ${LBUFFER} == *../.. && -z ${RBUFFER} ]] LBUFFER=${LBUFFER::-2}
+      if [[ ${LBUFFER} == *../.. && -z ${RBUFFER} ]] LBUFFER=${LBUFFER:0:-2}
       zle backward-delete-char
     }
     zle -N double-dot-contract
